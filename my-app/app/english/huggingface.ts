@@ -1,5 +1,5 @@
 import { InferenceClient } from '@huggingface/inference'
-const KEY = ''
+const KEY = process.env.key
 const client = new InferenceClient(KEY)
 
 export async function imageToText(image_url: string) {
