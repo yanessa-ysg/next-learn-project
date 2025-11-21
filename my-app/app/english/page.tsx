@@ -51,8 +51,8 @@ export default function OcrPage() {
       if (outputText?.content) {
         const textArray = outputText.content
           .split('\n')
-          .filter(item => item.trim().length > 0)
-          .map((text, index) => ({
+          .filter((item: any) => item.trim().length > 0)
+          .map((text: string, index: number) => ({
             id: `text-${index}-${Date.now()}`,
             content: text
           }));
