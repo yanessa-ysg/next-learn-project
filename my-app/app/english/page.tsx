@@ -50,7 +50,7 @@ export default function OcrPage() {
     try {
       const dataUrl = await blobToDataUrl(file);
       const outputText = await imageToText(dataUrl);
-      console.log(outputText)
+      console.error(outputText)
       if (outputText?.content) {
         const textArray = outputText.content
           .split('\n')
