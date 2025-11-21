@@ -1,8 +1,10 @@
 "use client";
 
-import { useState, useRef, ChangeEvent } from 'react';
+import { useState, useRef, ChangeEvent, useEffect } from 'react';
 import { imageToText } from './huggingface';
 import { generateAudio } from './common'
+
+
 
 interface TextItem {
   id: string;
@@ -10,6 +12,7 @@ interface TextItem {
 }
 
 export default function OcrPage() {
+
   const [tempFilePath, setTempFilePath] = useState<string>('');
   const [texts, setTexts] = useState<TextItem[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -123,6 +126,20 @@ export default function OcrPage() {
 
   const goBack = () => {
   };
+
+   useEffect(() => {
+
+    // 动态导入 vConsole
+    const loadVConsole = async () => {
+      const VConsole = (await import('vconsole')).default;
+      new VConsole();
+    };
+
+    loadVConsole();
+
+  }, []);
+
+
 
   return (
     <div className="ocr-page">
