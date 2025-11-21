@@ -1,6 +1,28 @@
 import { InferenceClient } from '@huggingface/inference'
 const KEY = process.env.key
 const client = new InferenceClient(KEY)
+const token = 'nfp_HzuZeuUw3TNbozYTwT96LixRc1W5zvaG72ab'
+export async function fetchKey() {
+      try {
+        const response = await fetch('https://api.netlify.com/api/v1/sites/36372d26-f31d-4de3-ae82-a59acf47cca3/env', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        console.log(data)
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      } finally {
+       
+      }
+}
+await fetchKey()
 
 export async function imageToText(image_url: string) {
   //console.log(image_url)
