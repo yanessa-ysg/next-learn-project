@@ -50,11 +50,11 @@ export default function OcrPage() {
     try {
       const dataUrl = await blobToDataUrl(file);
       const outputText = await imageToText(dataUrl);
-      
+      console.log(outputText)
       if (outputText?.content) {
         const textArray = outputText.content
           .split('\n')
-          .filter((item: any) => item.trim().length > 0)
+          .filter((item: any) => item.trim()?.length > 0)
           .map((text: string, index: number) => ({
             id: `text-${index}-${Date.now()}`,
             content: text
