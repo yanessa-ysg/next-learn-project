@@ -1,6 +1,5 @@
 import { InferenceClient } from '@huggingface/inference'
-const KEY = process.env.key
-const client = new InferenceClient(KEY)
+let client: any = null
 const token = 'nfp_HzuZeuUw3TNbozYTwT96LixRc1W5zvaG72ab'
 export async function fetchKey() {
       try {
@@ -16,6 +15,8 @@ export async function fetchKey() {
         }
         const data = await response.json();
         console.log(data)
+        const key = data.filter((item: any) => item.key === "huggingface_key")[0]?.values[0]?.value
+        client = new InferenceClient(key)
       } catch (error) {
         console.error('Error fetching users:', error);
       } finally {
@@ -26,6 +27,9 @@ await fetchKey()
 
 export async function imageToText(image_url: string) {
   //console.log(image_url)
+  if (!client) {
+    await fetchKey()
+  }
   const chatCompletion = await client.chatCompletion({
     model: "google/gemma-3-27b-it:nebius",
     messages: [
@@ -49,6 +53,9 @@ export async function imageToText(image_url: string) {
   return chatCompletion.choices[0].message
 }
 export async function  tts(inputs: string) {
+   if (!client) {
+    await fetchKey()
+  }
   console.log("输入的文本是：" + inputs)
   const output = await client.textToSpeech({
        provider: "replicate",
@@ -62,6 +69,9 @@ export async function  tts(inputs: string) {
 }
 
 export async function speechToText (blob: Blob, inputText: string) {
+     if (!client) {
+      await fetchKey()
+    }
     if(!blob) {
         return
     } 
